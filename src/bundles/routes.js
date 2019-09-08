@@ -4,6 +4,7 @@ import FilesPage from '../files/LoadableFilesPage'
 import StartExploringPage from '../explore/LoadableStartExploringPage'
 import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
+import PubsubPage from '../pubsub/LoadablePubsubPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
 import AnalyticsPage from '../settings/AnalyticsPage'
 import WelcomePage from '../welcome/LoadableWelcomePage'
@@ -16,6 +17,7 @@ export default createRouteBundle({
   '/ipns*': FilesPage,
   '/pins*': FilesPage,
   '/peers': PeersPage,
+  '/pubsub': PubsubPage,
   '/settings': SettingsPage,
   '/settings/analytics': AnalyticsPage,
   '/welcome': WelcomePage,

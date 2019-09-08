@@ -68,6 +68,7 @@ export const NavBar = ({ t, width, open, onToggle }) => {
           <NavLink to='/files' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
+          <NavLink to='/pubsub' icon={StrokeCube} open={open}>{t('pubsub:title')}</NavLink>
           <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
         </nav>
       </div>
