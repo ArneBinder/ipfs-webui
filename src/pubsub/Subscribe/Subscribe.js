@@ -9,7 +9,7 @@ import { withTranslation } from 'react-i18next'
 class Subscribe extends React.Component {
 
 	state = {
-		currentTopic: null,
+		currentTopic: this.props.topic,
 		nextTopic: null
 	}
 

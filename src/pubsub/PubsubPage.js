@@ -15,8 +15,8 @@ import Send from './Send/Send'
 import Console from './Console/Console'
 import AddConnection from '../peers/AddConnection/AddConnection'
 
-let logRef = React.createRef()
-let topic = React.createRef()
+//let logRef = React.createRef()
+//let topic = React.createRef()
 
 
 /*const getLogger = outEl => {
@@ -30,25 +30,40 @@ let topic = React.createRef()
 }
 
 let log = getLogger(logRef.current)*/
+class PubsubPage extends React.Component {
+//const PubsubPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
+	constructor() {
+		super();
+		this.logRef = React.createRef()
+		this.state = {
+			topic: null
+		}
+	}
 
-const PubsubPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
-  <div data-id='PubsubPage'>
-    <Helmet>
-      <title>{t('title')} - IPFS</title>
-    </Helmet>
 
-    <div className='flex justify-end mb3'>
-      <AddConnection />
-    </div>
+	render () {
+		const { t } = this.props
 
-    <Box className='pt3 ph3 pb4'>
-      <Subscribe log={logRef} topic={topic}/>
-      <Send log={logRef} topic={topic}/>
-      <Console log={logRef} />
-    </Box>
+		return (
+		  <div data-id='PubsubPage'>
+		    <Helmet>
+		      <title>{t('title')} - IPFS</title>
+		    </Helmet>
 
-  </div>
-)
+		    <div className='flex justify-end mb3'>
+		      <AddConnection />
+		    </div>
+
+		    <Box className='pt3 ph3 pb4'>
+		      <Subscribe log={this.logRef} topic={this.state.topic}/>
+		      <Send log={this.logRef} topic={this.state.topic}/>
+		      <Console log={this.logRef} />
+		    </Box>
+
+		  </div>
+		)
+	}
+}
 
 export default connect(
   'selectToursEnabled',

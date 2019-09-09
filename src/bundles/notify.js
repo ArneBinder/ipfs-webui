@@ -61,6 +61,15 @@ const notify = {
       }
     }
 
+    if (action.type === 'PUBSUB_SUBSCRIBE_FAILED' || action.type === 'PUBSUB_SUBSCRIBE_FINISHED') {
+      return {
+        ...state,
+        show: true,
+        error: action.type === 'PUBSUB_SUBSCRIBE_FAILED',
+        eventId: action.type
+      }
+    }
+
     if (action.type === EXP_ACTIONS.EXP_TOGGLE_FAILED) {
       return {
         ...state,
@@ -120,6 +129,10 @@ const notify = {
 
       if (eventId === 'SWARM_CONNECT_FINISHED') {
         return 'connectedToPeer'
+      }
+
+      if (eventId === 'PUBSUB_SUBSCRIBE_FINISHED') {
+        return 'subscribedToTopic'
       }
 
       return eventId

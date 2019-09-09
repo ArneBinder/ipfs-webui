@@ -1,0 +1,12 @@
+{
+  "title": "PubSub",
+  "peerId": "Peer-ID",
+  "pubsub": "PubSub",
+  "address": "Adresse",
+  "location": "Standort",
+  "unknownLocation": "Unbekannt",
+  "addConnection": "Verbindung hinzufügen",
+  "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
+  "add": "Hinzufügen",
+  "example": "Beispiel:"
+}

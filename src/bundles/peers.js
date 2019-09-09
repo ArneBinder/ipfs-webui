@@ -58,36 +58,44 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
   }
 
   log(`Subscribing to ${nextTopic}...`)
-
-  await ipfs.pubsub.subscribe(nextTopic, msg => {
-    //console.log('TEST0')
-    const from = msg.from
-    console.log(from)
-    const seqno = msg.seqno.toString('hex')
-    //if (from === peerId) return console.log(`Ignoring message ${seqno} from self`)
-    log(`Message ${seqno} from ${from}:`)
-    try {
-      log(JSON.stringify(msg.data.toString(), null, 2))
-    } catch (_) {
-      log(msg.data.toString('hex'))
-    }
-  }, {
-    onError: (err, fatal) => {
-      if (fatal) {
-        console.error(err)
-        log(`<span class="red">${err.message}</span>`)
-        topic = null
-        log('Resubscribing in 5s... (not implemented)')
-        //setTimeout(catchAndLog(() => subscribe(nextTopic), log), 5000)
-      } else {
-        console.warn(err)
+  try {
+    await ipfs.pubsub.subscribe(nextTopic, msg => {
+      //console.log('TEST0')
+      const from = msg.from
+      console.log(from)
+      const seqno = msg.seqno.toString('hex')
+      //if (from === peerId) return console.log(`Ignoring message ${seqno} from self`)
+      log(`Message ${seqno} from ${from}:`)
+      try {
+        log(JSON.stringify(msg.data.toString(), null, 2))
+      } catch (_) {
+        log(msg.data.toString('hex'))
       }
-    }
-  })
+      topic = nextTopic
+    }, {
+      onError: (err, fatal) => {
+        if (fatal) {
+          console.error(err)
+          log(`<span class="red">${err.message}</span>`)
+          topic = null
+          log('Resubscribing in 5s... (not implemented)')
+          //setTimeout(catchAndLog(() => subscribe(nextTopic), log), 5000)
+        } else {
+          console.warn(err)
+        }
+      }
+    })
+  } catch (err) {
+    return dispatch({
+      type: 'PUBSUB_SUBSCRIBE_FAILED',
+      payload: { topic, error: err }
+    })
+  }
 
-  topic = nextTopic
+  //topic = nextTopic
   log(`<span class="green">Success!</span>`)
-  return topic
+  //return topic
+  dispatch({ type: 'PUBSUB_SUBSCRIBE_FINISHED', payload: { topic } })
 }
 
 bundle.doSend = (msg, topic, log) => async ({ dispatch, getIpfs }) => {

@@ -14,6 +14,7 @@
   "filesEventFailed": "Failed to process your request. Please try again.",
   "couldntConnectToPeer": "Could not connect to the provided peer.",
   "connectedToPeer": "Successfully connected to the provided peer.",
+  "subscribedToTopic": "Successfully subscribed to topic.",
   "experimentsErrors": {
     "npmOnIpfs": "We couldn't make changes to your system. Please install or uninstall 'ipfs-npm' package manually."
   }
