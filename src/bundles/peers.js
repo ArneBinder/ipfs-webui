@@ -101,7 +101,7 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
       onError: (err, fatal) => {
         if (fatal) {
           console.error(err)
-          log(`<span class="red">${err.message}</span>`)
+          //log(`<span class="red">${err.message}</span>`)
           topic = null
           log('Resubscribing in 5s... (not implemented)')
           //setTimeout(bundle.catchAndLog(() => bundle.doSubscribeTopic(nextTopic), log), 5000)
@@ -118,7 +118,7 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
   }
 
   //topic = nextTopic
-  log(`<span class="green">Success!</span>`)
+  //log(`<span class="green">Success!</span>`)
   //return topic
   dispatch({ type: 'PUBSUB_SUBSCRIBE_FINISHED', payload: { topic } })
 }
@@ -132,7 +132,7 @@ bundle.doSend = (msg, topic, log) => async ({ dispatch, getIpfs }) => {
 
   log(`Sending message to ${topic}...`)
   await ipfs.pubsub.publish(topic, msg)
-  log(`<span class="green">Success!</span>`)
+  //log(`<span class="green">Success!</span>`)
 }
 
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
