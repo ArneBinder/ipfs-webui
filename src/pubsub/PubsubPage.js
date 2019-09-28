@@ -32,14 +32,22 @@ import AddConnection from '../peers/AddConnection/AddConnection'
 let log = getLogger(logRef.current)*/
 class PubsubPage extends React.Component {
 //const PubsubPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
-	constructor() {
-		super();
-		this.logRef = React.createRef()
+	constructor(props) {
+		super(props)
+		//this.logRef = React.createRef()
 		this.state = {
-			topic: null
+			topic: null,
+			log: null
+			//logRef: React.createRef()
 		}
 	}
 
+	setLogCallback = (log) => {
+		this.setState({log: log})
+	}
+	setTopicCallback = (topic)=> {
+		this.setState({topic: topic})
+	}
 
 	render () {
 		const { t } = this.props
@@ -55,9 +63,9 @@ class PubsubPage extends React.Component {
 		    </div>
 
 		    <Box className='pt3 ph3 pb4'>
-		      <Subscribe log={this.logRef} topic={this.state.topic}/>
-		      <Send log={this.logRef} topic={this.state.topic}/>
-		      <Console log={this.logRef} />
+		      <Subscribe log={this.state.log} setTopic={this.setTopicCallback}/>
+		      <Send log={this.state.log} topic={this.state.topic}/>
+		      <Console setLog={this.setLogCallback} />
 		    </Box>
 
 		  </div>

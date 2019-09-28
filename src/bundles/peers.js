@@ -34,16 +34,39 @@ bundle.doConnectSwarm = addr => async ({ dispatch, getIpfs }) => {
   dispatch({ type: 'SWARM_CONNECT_FINISHED', payload: { addr } })
 }
 
+/*bundle.catchAndLog = (fn, log) => {
+  return async (...args) => {
+    try {
+      await fn(...args)
+    } catch (err) {
+      console.error(err)
+      log(`<span class="red">${err.message}</span>`)
+    }
+  }
+}*/
+
 bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs }) => {
   const ipfs = getIpfs()
-  /* TODO: get peerId
-  ipfs.id(function (err, identity) {
+  //let peerId = null
+  // TODO: get peerId
+  await ipfs.id(function (err, identity) {
     if (err) {
       throw err
     }
     console.log(identity.id)
+    //return identity.id
   })
-  */
+
+  // DEBUG
+  ipfs.pubsub.ls((err, topics) => {
+    if (err) {
+      return console.error('failed to get list of subscription topics', err)
+    }
+    console.log('current subscriptions:')
+    console.log(topics)
+  })
+
+  //const peerId = 'Qmc9jLqTwvdaSzcnhQknM6djjks8kyDC6asUCC6kMackYs'
 
 
   if (!nextTopic) throw new Error('Missing topic name')
@@ -51,18 +74,20 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
 
   const lastTopic = topic
 
-  if (topic) {
+  // BUG: causes error
+  /*if (lastTopic) {
     topic = null
     log(`Unsubscribing from topic ${lastTopic}`)
     await ipfs.pubsub.unsubscribe(lastTopic)
-  }
+  }*/
 
   log(`Subscribing to ${nextTopic}...`)
   try {
     await ipfs.pubsub.subscribe(nextTopic, msg => {
-      //console.log('TEST0')
+      //log(nextTopic)
+      //log(msg)
+      //log('TEST0')
       const from = msg.from
-      console.log(from)
       const seqno = msg.seqno.toString('hex')
       //if (from === peerId) return console.log(`Ignoring message ${seqno} from self`)
       log(`Message ${seqno} from ${from}:`)
@@ -79,7 +104,7 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
           log(`<span class="red">${err.message}</span>`)
           topic = null
           log('Resubscribing in 5s... (not implemented)')
-          //setTimeout(catchAndLog(() => subscribe(nextTopic), log), 5000)
+          //setTimeout(bundle.catchAndLog(() => bundle.doSubscribeTopic(nextTopic), log), 5000)
         } else {
           console.warn(err)
         }
@@ -88,7 +113,7 @@ bundle.doSubscribeTopic = (topic, nextTopic, log) => async ({ dispatch, getIpfs 
   } catch (err) {
     return dispatch({
       type: 'PUBSUB_SUBSCRIBE_FAILED',
-      payload: { topic, error: err }
+      payload: { nextTopic, error: err }
     })
   }
 

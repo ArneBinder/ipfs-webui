@@ -9,29 +9,8 @@ import { withTranslation } from 'react-i18next'
 class Subscribe extends React.Component {
 
 	state = {
-		currentTopic: this.props.topic,
+		currentTopic: null,
 		nextTopic: null
-	}
-
-	getLogger = outEl => {
-	  outEl.innerHTML = ''
-	  return message => {
-	    const container = document.createElement('div')
-	    container.innerHTML = message
-	    outEl.appendChild(container)
-	    outEl.scrollTop = outEl.scrollHeight
-		}
-	}
-
-	catchAndLog = (fn, log) => {
-	  return async (...args) => {
-	    try {
-	      await fn(...args)
-	    } catch (err) {
-	      console.error(err)
-	      log(`<span class="red">${err.message}</span>`)
-	    }
-	  }
 	}
 
 	onChange = (event) => {
@@ -40,9 +19,15 @@ class Subscribe extends React.Component {
   }
 
 	subscribe = (e) => {
-		let log = this.getLogger(this.props.log.current)
-		let topic = this.props.doSubscribeTopic(this.state.currentTopic, this.state.nextTopic, log)
-		this.setState({ currentTopic: topic })
+		//let log = this.getLogger(this.props.log.current)
+		console.log(this.props)
+		this.props.doSubscribeTopic(this.state.currentTopic, this.state.nextTopic, this.props.log)
+		this.setState({ currentTopic: this.state.nextTopic })
+		console.log(this.state.nextTopic)
+		this.props.setTopic(this.state.nextTopic)
+
+		console.log(this.state)
+
 		//this.catchAndLog(() => this.props.doSubscribeTopic(this.state.currentTopic, this.state.nextTopic, log), log)
 		e.preventDefault()
 	}

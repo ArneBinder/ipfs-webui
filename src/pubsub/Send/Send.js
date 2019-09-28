@@ -9,24 +9,15 @@ class Send extends React.Component {
 		message: null
 	}
 
-	getLogger = outEl => {
-	  outEl.innerHTML = ''
-	  return message => {
-	    const container = document.createElement('div')
-	    container.innerHTML = message
-	    outEl.appendChild(container)
-	    outEl.scrollTop = outEl.scrollHeight
-		}
-	}
-
 	onChange = (event) => {
     let val = event.target.value
     this.setState({ message: val })
   }
 
 	send = (e) => {
-		let log = this.getLogger(this.props.log.current)
-		this.props.doSend(this.state.message, this.props.topic.current.value, log)
+		//let log = this.getLogger(this.props.log.current)
+		console.log(this.props)
+		this.props.doSend(this.state.message, this.props.topic, this.props.log)
 		//this.setState({ currentTopic: topic })
 		e.preventDefault()
 	}
